@@ -6,8 +6,11 @@ router = DefaultRouter()
 router.register(r'books-Info', BookinfoView, basename='book')
 router.register(r'returned-Books', ReturnedBookInfoView, basename='returned-book')
 router.register(r'borrowed-Books', BorrowedBookInfoView, basename='borrowed-book')
-router.register(r'UserBorrowAPI',UserBorrowview)
-router.register(r'UserReturnAPI',UserReturnview)
+router.register(r'BorrowAPI',UserBorrowview)
+router.register(r'ReturnAPI',UserReturnview)
+router.register(r'borrowedbooksbyuser',BorrowedBooksByUserView)
+router.register(r'returnedbooksbyuser',ReturneddBooksByUserView)
+
 
 
 urlpatterns = [

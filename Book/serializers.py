@@ -7,11 +7,14 @@ class BookInfoSerializers(serializers.ModelSerializer):
         fields = "__all__"
 
 class BorrowedBookInfoSerializers(serializers.ModelSerializer):
+    book_title = serializers.CharField(source='book.title', read_only=True)
+
     class Meta:
         model = BorrowedBookInfo
         fields = "__all__"
 
 class ReturnedBookInfoSerializers(serializers.ModelSerializer):
+    book_title = serializers.CharField(source='book.title', read_only=True)
     class Meta:
         model = ReturnedBookInfo
         fields = "__all__"

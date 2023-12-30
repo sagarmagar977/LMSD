@@ -106,16 +106,7 @@ class Transaction(models.Model):
     book = models.ForeignKey(BookInfo, on_delete=models.CASCADE)
     def __str__(self):
         return self.user
-    # def save(self):
-    #     if self.transaction_type == 'Return':
-    #      self.transaction_date = timezone.now().date()
-        
-    #      super().save()
-    #     elif self.transaction_type == 'Borrow':
-    #      self.transaction_date = timezone.now().date()
-    #      self.due_date = self.transaction_date + timedelta(days=14)
-    #      super().save()
-   
+
 
     
 
@@ -153,59 +144,5 @@ def handle_transaction(sender, instance, created, **kwargs):
                 
                )
             instance.book.update_status()
-
-   
-############################ FOR USER"s Transaction ###############
-            
-# class TransactionForUser(models.Model):
-#     TRANSACTION_CHOICES = [
-#         ('Borrow', 'Borrow'),
-#         ('Return', 'Return')
-#     ]
-
-#     transaction_type = models.CharField(max_length=10, choices=TRANSACTION_CHOICES)
-#     transaction_date = models.DateField(default=timezone.now,null=True,blank=True)
-#     due_date = models.DateField(null=True, blank=True)
-#     user = models.CharField(max_length=255,null=True,blank=True)
-#     book = models.ForeignKey(BookInfo, on_delete=models.CASCADE)
-#     def __str__(self):
-#         return self.user
-   
-
-    
-
-# @receiver(post_save, sender=TransactionForUser)
-# def handle_transaction(sender, instance, created, **kwargs):
-#     if created: 
-
-#         if instance.transaction_type == 'Return':
-#             instance.book.stock += 1
-#             if instance.due_date > timezone.now().date():
-#                days_left=(instance.due_date-timezone.now().date()).days
-#                due_status = f" Returned {days_left} days before due date !"
-#             elif instance.due_date < timezone.now().date():
-#                  days_passed=(timezone.now().date()-instance.due_date).days
-#                  due_status = f" Returned  {days_passed} days late after the  due date !"
-#             ReturnedBookInfo.objects.create(
-#                 returner_name=instance.user,
-#                 book=instance.book,
-#                 returned_date=instance.transaction_date,
-#                 borrowed_date=instance.due_date - timedelta(days=14),
-#                 due_status=due_status
-#                )
-#             instance.book.update_status()
-#         elif instance.transaction_type == 'Borrow':
-#             instance.book.stock -= 1
-#             due_date=instance.transaction_date + timedelta(days=14)
-            
-#             BorrowedBookInfo.objects.create(
-#                 borrower_name=instance.user,
-#                 book=instance.book,
-#                 borrowed_date=instance.transaction_date,
-#                 due_date=due_date,
-               
-                
-#                )
-#             instance.book.update_status()
 
    

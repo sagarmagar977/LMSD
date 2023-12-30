@@ -12,7 +12,7 @@ class BookinfoView(viewsets.ModelViewSet):
     serializer_class=BookInfoSerializers
     filter_backends=[DjangoFilterBackend,filters.SearchFilter]
     permission_classes=[CustomModelPermission]
-    filterset_fields=['title','author',]
+    filterset_fields=['title','author','catagory']
     search_fields=['title','author','catagory']
 
 class ReturnedBookInfoView(viewsets.ModelViewSet):
@@ -61,4 +61,25 @@ class UserReturnview(viewsets.GenericViewSet,mixins.CreateModelMixin):
         #     return False, {"detail": f"Failed to return the book. Error: {str(e)}"}
    
 
+
+
+class BorrowedBooksByUserView(viewsets.GenericViewSet,mixins.ListModelMixin):
+    serializer_class = BorrowedBookInfoSerializers
+    queryset=BorrowedBookInfo.objects.all()
+    permission_classes = [CustomModelPermission]
+
+    def get_queryset(self):
+       
+        user = self.request.user
+        return BorrowedBookInfo.objects.filter(borrower_name=user) 
     
+
+class ReturneddBooksByUserView(viewsets.GenericViewSet,mixins.ListModelMixin):
+    serializer_class = ReturnedBookInfoSerializers
+    queryset=ReturnedBookInfo.objects.all()
+    permission_classes = [CustomModelPermission]
+
+    def get_queryset(self):
+       
+        user = self.request.user
+        return ReturnedBookInfo.objects.filter(returner_name=user) 
